@@ -1,0 +1,202 @@
+
+import pyttsx3
+import pywhatkit
+import speech_recognition as sr
+import pyaudio
+import datetime
+import wikipedia
+import random
+from playsound import playsound
+import requests
+import webbrowser
+from gtts import gTTS
+import smtplib
+import os
+from bs4 import BeautifulSoup
+import datetime as np
+import cv2
+import requests
+
+
+
+
+
+
+r = sr.Recognizer()
+
+def voice_command_processor():
+    with sr.Microphone() as source:
+        audio = r.listen(source,phrase_time_limit=4)
+        text = ''
+        try:
+            text=r.recognize_google(audio)
+        except sr.UnknownValueError as e:
+            print(e)
+        except sr.RequestError as e:
+            print("service")
+
+        return text.lower()
+
+engine = pyttsx3.init()
+engine.setProperty('volume', 1.0)
+
+wake = "mégane"
+
+playsound(r'/Users/sinope/Downloads/megan2.mp3')
+
+listener = sr.Recognizer()
+engine = pyttsx3.init()
+engine.setProperty("voice", "french")
+engine.setProperty("rate", 170)
+
+def talk(text):
+    engine.say(text)
+    engine.runAndWait()
+
+
+def greetme():
+    current_hour = int(datetime.datetime.now().hour)
+    if 0 <= current_hour < 12:
+        talk("salut je suis mégane")
+
+    if 12 <= current_hour < 18:
+        talk("Salut je suis mégane")
+
+    if current_hour >= 18 and current_hour != 0:
+        talk("bonsoir je suis mégane")
+
+# set french female voice
+voices = engine.getProperty("voices")
+engine.setProperty("voice", voices[3].id)
+greetme()
+engine.say("en quoi puis-je etre utile")
+engine.runAndWait()
+
+def mégane_command():
+    with sr.Microphone() as source:
+        print("listening...")
+        listener.pause_threshold = 1
+        voice = listener.listen(source)
+        command = listener.recognize_google(voice, language="fr_FR")
+        command = command.lower()
+        print(command)
+        if "mégane" in command:
+            command = command.replace("mégane", "")
+            print(command)
+    return command
+
+def run_mégane():
+    command = mégane_command()
+    if "musique" in command:
+        song = command.replace("musique", "")
+        talk("ok je lance la musique...")
+        pywhatkit.playonyt(song)
+    elif "heure" in command:
+        time = datetime.datetime.now().strftime("%H:%M")
+        print(time)
+        talk("il est:" + time)
+    elif "qui est" in command:
+        person = command.replace("qui est", "")
+        wikipedia.set_lang("fr")
+        info = wikipedia.summary(person, 1)
+        talk(info)
+    elif "c'est quoi" in command:
+        person = command.replace("c'est quoi", "")
+        wikipedia.set_lang("fr")
+        info = wikipedia.summary(person, 1)
+        talk(info)
+    elif "qui est" in command:
+        person = command.replace("qui est", "")
+        wikipedia.set_lang("fr")
+        info = wikipedia.summary(person, 1)
+        talk(info)
+    elif "pourquoi" in command:
+        person = command.replace("qui est", "")
+        wikipedia.set_lang("fr")
+        info = wikipedia.summary(person, 1)
+        talk(info)
+    elif "qu'est-ce que c'est qu'un" in command:
+        person = command.replace("qu'es(t-ce qu'un", "")
+        wikipedia.set_lang("fr")
+        info = wikipedia.summary(person, 1)
+        talk(info)
+    elif "qu'est-ce que c'est qu'une" in command:
+        person = command.replace("qu'est)ce qu'un", "")
+        wikipedia.set_lang("fr")
+        info = wikipedia.summary(person, 1)
+        talk(info)
+    elif "qu'est-ce qu'un" in command:
+        person = command.replace("qu'est ce qu'un", "")
+        wikipedia.set_lang("fr")
+        info = wikipedia.summary(person, 1)
+        talk(info)
+    elif "qui a créé" in command:
+        person = command.replace("qui a créé", "")
+        wikipedia.set_lang("fr")
+        info = wikipedia.summary(person, 1)
+        talk(info)
+    elif "qui a créé la" in command:
+        person = command.replace("qui a créé la", "")
+        wikipedia.set_lang("fr")
+        info = wikipedia.summary(person, 1)
+        talk(info)
+    elif "qui a créé les" in command:
+        person = command.replace("qui a créé les", "")
+        wikipedia.set_lang("fr")
+        info = wikipedia.summary(person, 1)
+        talk(info)
+    elif "à quoi ça sert" in command:
+        person = command.replace("à quoi ça sert", "")
+        wikipedia.set_lang("fr")
+        info = wikipedia.summary(person, 1)
+        talk(info)
+    elif "qui a créé le" in command:
+        person = command.replace("qui a créé le", "")
+        wikipedia.set_lang("fr")
+        info = wikipedia.summary(person, 1)
+        talk(info)
+    elif "qui a inventé les" in command:
+        person = command.replace("inventé", "")
+        wikipedia.set_lang("fr")
+        info = wikipedia.summary(person, 1)
+        talk(info)
+    elif "ça va" in command:
+        cva = ("oui tres bien", "je vais super bien")
+        talk(random.choice(cva))
+    elif "tu fais quoi" in command:
+        msg = ("rien","je fais mes petit truc", "rien du tout")
+        talk(random.choice(msg))
+    elif "qu'est-ce que tu fais" in command:
+        msg = ("rien","je fais mes petit truc", "rien du tout")
+        talk(random.choice(msg))
+    elif "est-ce que je t'embête" in command:
+        emb = ("NON pas du tout","j'ai, etait programmer, pour aider les humains", "j'étais dans mes penser")
+        talk(random.choice(emb))
+    elif "inventé" in command:
+        talk("c'est mathisse sinope qui ma inventé")
+    elif "créé" in command:
+        talk("c'est mathisse sinope qui ma créé")
+    elif "comment tu t'appelle" in command:
+        talk("je m'appelle megan")
+    elif "blague" in command:
+        jokes = ["La plage dit, à l’océan…..,dire que tout le monde aime l’eau c’est assez vague.",
+                 "Comment,appelle-t-on, un ,alligator qui enquête?...Un ,investi-gator.",
+                 "Qu’est-ce que, le livre, de mathématiques, dit au conseiller, d’orientation,?...J’ai tellement, de problèmes.",]
+        talk(random.choice(jokes))
+    elif "et toi" in command:
+        msgs = ["je vais a merveille!", "je me sens bien", "je vais tres bien"]
+        talk(random.choice(msgs))
+    elif "arrête-toi" in command:
+        talk("ok a plus tard!")
+        sys.exit()
+    elif "bonne nuit" in command:
+        talk("bonne nuit mathisse")
+        sys.exit()
+    else:
+        talk("pourrais tu repété?")
+
+
+
+if __name__=='__main__':
+    while True:
+        run_mégane()
